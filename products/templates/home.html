@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div class="bg-dark text-white text-center p-5 rounded mb-4">
+    <h1>🍔 Welcome to Foodie</h1>
+    <p>Delicious food delivered to your door</p>
+    <a href="{% url 'products' %}" class="btn btn-warning">Order Now</a>
+</div>
+
+<!-- ABOUT SECTION -->
+<div class="container mb-5">
+    <h2>About Us</h2>
+    <p>
+        We provide the best quality food with fast delivery. 
+        Enjoy biryani, kabab, fast food and much more!
+    </p>
+</div>
+
+<!-- FEATURED PRODUCTS -->
+<div class="container mb-5">
+    <h2>Popular Dishes</h2>
+    <div class="row">
+        {% for product in products|slice:":3" %}
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-3">
+                {% if product.images.first %}
+                    <img src="{{ product.images.first.product_images.url }}" height="200">
+                {% endif %}
+                <div class="p-3">
+                    <h5>{{ product.product_name }}</h5>
+                    <p>{{ product.product_description|truncatechars:60 }}</p>
+                    <a href="{% url 'product_detail' product.product_slug %}" class="btn btn-sm btn-primary">
+                        View
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<div class="container mb-5">
+    <h2>Contact Us</h2>
+    <p><strong>📞 Phone:</strong> 0300-1234567</p>
+    <p><strong>📧 Email:</strong> foodie@email.com</p>
+    <p><strong>📍 Address:</strong> Mehmoodabad Number 1, near Mezzan bank, Karachi, Pakistan</p>
+</div>
+
+<h2>Send Message</h2>
+
+<form method="POST" name="contact_form">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Your Email" class="form-control mb-2" required>
+    <textarea name="message" placeholder="Your Message" class="form-control mb-2" required></textarea>
+    <button type="submit" class="btn btn-success">Send Message</button>
+</form>
+
+
+<!-- FOOTER -->
+
+<footer class="bg-dark text-white text-center p-3">
+    <p>© 2026 Foodie | All Rights Reserved</p>
+</footer>
+
+{% endblock %}

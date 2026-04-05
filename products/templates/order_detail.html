@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load cart_filters %}
+
+{% block content %}
+<h2>Order #{{ order.id }} Details</h2>
+
+<p><strong>Name:</strong> {{ order.name }}</p>
+<p><strong>Email:</strong> {{ order.email }}</p>
+<p><strong>Address:</strong> {{ order.address }}</p>
+<p><strong>Payment Method:</strong> {{ order.payment_method|title }}</p>
+
+<!-- Payment Status -->
+<p><strong>Payment Status:</strong> {{ order.payment_status|capfirst }}</p>
+
+{% if order.payment_method == 'online' and order.payment_status == 'pending' %}
+<div class="alert alert-warning mt-3">
+  ⚠️ Please transfer the amount to the following account to complete your order:
+  <ul>
+    <li>Bank: ABC Bank</li>
+    <li>Account No: 123456789</li>
+    <li>IBAN: PK00ABC123456789</li>
+    <li>Reference: Order #{{ order.id }}</li>
+  </ul>
+</div>
+{% elif order.payment_status == 'paid' %}
+<div class="alert alert-success mt-3">
+  ✅ Payment received. Your order is confirmed!
+</div>
+{% endif %}
+
+<h3>Items:</h3>
+{% for item in items %}
+    <p>{{ item.product }} - {{ item.quantity }} x {{ item.price }} = Rs. {{ item.quantity|mul:item.price }}</p>
+{% endfor %}
+
+<h3>Total:</h3>
+<p>Rs. {{ items|calc_total }}</p>
+
+{% endblock %}

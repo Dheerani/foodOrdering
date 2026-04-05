@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">All Products</h2>
+
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+
+            {% if product.images.first %}
+                <img src="{{ product.images.first.product_images.url }}" class="card-img-top" height="200">
+            {% endif %}
+
+            <div class="product-card">
+                <h3>{{ product.product_name }}</h3>
+
+                <p>
+                    {{ product.product_description|truncatechars:100 }}
+                    <a href="{% url 'product_detail' product.product_slug %}" class="btn btn-link">
+                        See More
+                    </a>
+                </p>
+
+                <p>
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= product.rating %}
+                            ⭐
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+                </p>
+
+                <a href="{% url 'add_to_cart' product.product_slug %}" class="btn btn-primary">
+                    Add to Cart
+                </a>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

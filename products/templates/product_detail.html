@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ product.product_name }}</h2>
+
+{% if product.images.first %}
+    <img src="{{ product.images.first.product_images.url }}" alt="{{ product.product_name }}" class="img-fluid">
+{% endif %}
+
+<p>{{ product.product_description }}</p>
+
+<p>Price: ${{ product.product_price }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <label>Rate this product:</label>
+    <select name="rating">
+        <option value="1">1 ⭐</option>
+        <option value="2">2 ⭐⭐</option>
+        <option value="3">3 ⭐⭐⭐</option>
+        <option value="4">4 ⭐⭐⭐⭐</option>
+        <option value="5">5 ⭐⭐⭐⭐⭐</option>
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+<a href="{% url 'add_to_cart' product.product_slug %}" class="btn btn-primary">
+    Add to Cart
+</a>
+{% endblock %}

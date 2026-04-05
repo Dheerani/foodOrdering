@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Order History</h2>
+
+{% for order in orders %}
+    <p>
+        {{ order.name }} - {{ order.email }}
+        <a href="{% url 'order_detail' order.id %}">View</a>
+    </p>
+{% endfor %}
+
+{% endblock %}
